@@ -1,6 +1,0 @@
-
-
-# fourier tranform 
-
-
-#fft convolution

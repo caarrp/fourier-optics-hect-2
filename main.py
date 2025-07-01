@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from math import sin, pi
 
-def sinc_x_sinc_y(bounds=5, resolution=100):
+def sinc_x_sinc_y(bounds=2, resolution=200):
     """Calculate sinc(x)*sinc(y) manually"""
     x = []
     y = []
