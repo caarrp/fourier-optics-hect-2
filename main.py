@@ -4,27 +4,19 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from math import sin, pi
 
+
 def sinc_x_sinc_y(bounds=2, resolution=200):
-    """Calculate sinc(x)*sinc(y) manually"""
-    x = []
-    y = []
-    z = []
+    """Calculate sinc(x)*sinc(y) using numpy's sinc function"""
+    x = np.linspace(-bounds, bounds, resolution)
+    y = np.linspace(-bounds, bounds, resolution)
+    X, Y = np.meshgrid(x, y)
     
-    for i in range(resolution):
-        val = ((i / resolution) * 2 * bounds) - bounds
-        x.append(val)
-        y.append(val)
-        
-        # Calculate sinc(x)
-        if val == 0:
-            sinc_x = 1
-        else:
-            sinc_x = sin(pi * val) / (pi * val)
-        
-        # Calculate sinc(y) (same as sinc_x in this case)
-        z.append(sinc_x * sinc_x)  # z = sinc(x)*sinc(y)
+    # numpy.sinc computes sin(πx)/(πx), which is the normalized sinc function
+    sinc_x = np.sinc(X)
+    sinc_y = np.sinc(Y)
+    Z = sinc_x * sinc_y
     
-    return x, y, z
+    return X, Y, Z
 
 def rect_x_rect_y(bounds=5, resolution=100):
     """Rectangular function rect(x)*rect(y)"""
@@ -71,16 +63,16 @@ def test_plotly(sinc=False, rect=False, triangle=False, gaussian=False):
         raise ValueError("No function selected")
 
     # Plotly 3D Surface Plot
-    # fig = go.Figure(data=[go.Surface(z=zw, x=xu, y=yv, colorscale='Viridis')])
-    # fig.update_layout(
-    #     title=title,
-    #     scene=dict(
-    #         xaxis_title='x',
-    #         yaxis_title='y',
-    #         zaxis_title='Amplitude',
-    #         camera=dict(eye=dict(x=1.5, y=1.5, z=0.8))
-    # )
-    # fig.show()
+    fig = go.Figure(data=[go.Surface(z=zw, x=xu, y=yv, colorscale='Viridis')])
+    fig.update_layout(
+        title=title,
+        scene=dict(
+            xaxis_title='x',
+            yaxis_title='y',
+            zaxis_title='Amplitude',
+            camera=dict(eye=dict(x=1.5, y=1.5, z=0.8))
+    ))
+    fig.show()
 
     # Matplotlib Wireframe Plot
     fig = plt.figure()
